@@ -13,6 +13,7 @@ describe('AuthGuard', () => {
       switchToHttp: () => ({
         getRequest: () => ({
           header: () => 'SECRET',
+          headers: { 'x-api-key': 'SECRET' },
         }),
       }),
     });
@@ -25,6 +26,7 @@ describe('AuthGuard', () => {
       switchToHttp: () => ({
         getRequest: () => ({
           header: () => undefined,
+          headers: {},
         }),
       }),
     });
@@ -37,6 +39,7 @@ describe('AuthGuard', () => {
       switchToHttp: () => ({
         getRequest: () => ({
           header: () => 'INVALID_KEY',
+          headers: { 'x-api-key': 'INVALID_KEY' },
         }),
       }),
     });
