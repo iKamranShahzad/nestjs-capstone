@@ -12,11 +12,35 @@ describe('AuthGuard', () => {
     const context = createMock<ExecutionContext>({
       switchToHttp: () => ({
         getRequest: () => ({
-          headers: { 'x-api-key': 'SECRET' },
+          header: () => 'SECRET',
         }),
       }),
     });
     const result = authGuard.canActivate(context);
     expect(result).toBe(true);
+  });
+
+  it('should return false if no header was passed', () => {
+    const context = createMock<ExecutionContext>({
+      switchToHttp: () => ({
+        getRequest: () => ({
+          header: () => undefined,
+        }),
+      }),
+    });
+    const result = authGuard.canActivate(context);
+    expect(result).toBe(false);
+  });
+
+  it('should return false if the API key is invalid', () => {
+    const context = createMock<ExecutionContext>({
+      switchToHttp: () => ({
+        getRequest: () => ({
+          header: () => 'INVALID_KEY',
+        }),
+      }),
+    });
+    const result = authGuard.canActivate(context);
+    expect(result).toBe(false);
   });
 });

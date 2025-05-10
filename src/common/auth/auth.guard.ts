@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     console.log('AuthGuard: Checking Authentication');
     const request: Request = context.switchToHttp().getRequest();
-    const apiKey = request.headers['x-api-key'];
+    const apiKey = request.header('x-api-key');
     if (apiKey !== 'SECRET') {
       console.log('AuthGuard Failed');
       return false;
