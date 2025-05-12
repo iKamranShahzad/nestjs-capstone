@@ -4,7 +4,8 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getEmoji(index?: number): string {
     const emojis = this.getEmojis();
-    const emojiIndex = index || Math.floor(Math.random() * emojis.length);
+    const emojiIndex =
+      index !== undefined ? index : Math.floor(Math.random() * emojis.length);
     return emojis[emojiIndex];
   }
 
