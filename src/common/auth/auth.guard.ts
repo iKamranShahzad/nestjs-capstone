@@ -1,20 +1,22 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
+import { LoggerService } from 'src/logger.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+  constructor(private readonly loggerService: LoggerService) {}
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    console.log('2) AuthGuard: Checking Authentication');
+    this.loggerService.log('2) AuthGuard: Checking Authentication');
     const request: Request = context.switchToHttp().getRequest();
     const apiKey = request.headers['x-api-key'];
     if (apiKey !== 'SECRET') {
-      console.log('- AuthGuard Failed');
+      this.loggerService.error('AuthGuard Failed');
       return false;
     }
-    console.log('- AuthGuard Passed');
+    this.loggerService.log('AuthGuard Passed');
     return true;
   }
 }
